@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer Shadow Layer -->
+    <path
+        android:fillColor="#111827"
+        android:pathData="M32,15 L76,15 Q95,15 95,34 L95,78 Q95,97 76,97 L32,97 Q13,97 13,78 L13,34 Q13,15 32,15 Z" />
+    <!-- Vibrant Indigo Squircle Background -->
+    <path
+        android:fillColor="#4F46E5"
+        android:pathData="M32,13 L76,13 Q95,13 95,32 L95,76 Q95,95 76,95 L32,95 Q13,95 13,76 L13,32 Q13,13 32,13 Z" />
+    <!-- Inner Accent Rim -->
+    <path
+        android:fillColor="#6366F1"
+        android:pathData="M34,16 L74,16 Q92,16 92,34 L92,74 Q92,92 74,92 L34,92 Q16,92 16,74 L16,34 Q16,16 34,16 Z" />
+    <!-- Outer Metallic Clock Bezel -->
+    <path
+        android:fillColor="#1E293B"
+        android:pathData="M54,18 A36,36 0 1,1 53.99,18 Z" />
+    <!-- Clock Dial Face -->
+    <path
+        android:fillColor="#0F172A"
+        android:pathData="M54,21 A33,33 0 1,1 53.99,21 Z" />
+    <!-- Inner Dial Subtle Ring -->
+    <path
+        android:fillColor="#162238"
+        android:pathData="M54,24 A30,30 0 1,1 53.99,24 Z" />
+
+    <!-- 12 O'Clock Marker (Gold Triangle Crown) -->
+    <path
+        android:fillColor="#F59E0B"
+        android:pathData="M51,25 L57,25 L55,31 L53,31 Z" />
+    <!-- 3 O'Clock Marker (Cyan Bar) -->
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M77,52 L82,52 L82,56 L77,56 Z" />
+    <!-- 6 O'Clock Marker (Cyan Bar) -->
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M52,77 L56,77 L56,82 L52,82 Z" />
+    <!-- 9 O'Clock Marker (Cyan Bar) -->
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M26,52 L31,52 L31,56 L26,56 Z" />
+
+    <!-- Minor Hour Dots (White) -->
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M67,29.2 A1.8,1.8 0 1,1 66.99,29.2 Z" />
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M77,39.2 A1.8,1.8 0 1,1 76.99,39.2 Z" />
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M77,65.2 A1.8,1.8 0 1,1 76.99,65.2 Z" />
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M67,75.2 A1.8,1.8 0 1,1 66.99,75.2 Z" />
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M41,75.2 A1.8,1.8 0 1,1 40.99,75.2 Z" />
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M31,65.2 A1.8,1.8 0 1,1 30.99,65.2 Z" />
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M31,39.2 A1.8,1.8 0 1,1 30.99,39.2 Z" />
+    <path
+        android:fillColor="#E2E8F0"
+        android:pathData="M41,29.2 A1.8,1.8 0 1,1 40.99,29.2 Z" />
+
+    <!-- Hour Hand pointing to 10 o'clock (Red) -->
+    <path
+        android:fillColor="#EF4444"
+        android:pathData="M51,57 L35,39 L39,35 L57,51 Z" />
+    <!-- Minute Hand pointing to 2 o'clock (Neon Blue) -->
+    <path
+        android:fillColor="#00D2FF"
+        android:pathData="M51,51 L72,28 L76,32 L55,55 Z" />
+
+    <!-- Center Pivot Cap (Gold + White Highlight) -->
+    <path
+        android:fillColor="#F59E0B"
+        android:pathData="M54,49.5 A4.5,4.5 0 1,1 53.99,49.5 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,52 A2,2 0 1,1 53.99,52 Z" />
+
+    <!-- Learning Star Badge Top-Right -->
+    <path
+        android:fillColor="#FACC15"
+        android:pathData="M81,17 L83,21 L87,22 L83,24 L81,28 L79,24 L75,22 L79,21 Z" />
+</vector>

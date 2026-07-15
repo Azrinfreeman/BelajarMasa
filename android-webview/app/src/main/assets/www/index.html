@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Genius Time Master! • Interactive Clock Game</title>
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=1.4.0">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=1.4.2">
+</head>
+<body>
+  <!-- Splash Screen (Fades out after 2s) -->
+  <div id="splash-screen" class="splash-screen">
+    <div class="splash-content">
+      <img src="favicon.svg" alt="Genius Time Master Clock Logo" class="splash-logo" style="width: 104px; height: 104px; object-fit: contain;">
+      <h1 class="splash-title" style="font-size: 3rem;">Genius Time Master!</h1>
+      <p class="splash-tagline" id="splash-tagline">Belajar Membaca Jam • Fun Clock Learning</p>
+      <div class="splash-loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ambient background shapes for premium look -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div class="app-container">
+    <!-- Header Area -->
+    <header class="app-header">
+      <div class="logo-area" onclick="backToMainMenu()" style="cursor: pointer;">
+        <img src="favicon.svg" alt="Genius Time Master Clock Logo" class="logo-icon" style="width: 38px; height: 38px; object-fit: contain;">
+        <div class="logo-text">
+          <h1 style="font-size: 1.4rem;">Genius Time Master!</h1>
+          <p data-i18n="subtitle">Interactive Teaching & Quiz Clock</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="mode-selector hidden" id="header-mode-selector">
+          <button id="btn-home" class="mode-btn" onclick="backToMainMenu()">
+            <span class="btn-icon">🏠</span> <span data-i18n="btnHome">Menu</span>
+          </button>
+          <button id="btn-explore" class="mode-btn active" onclick="switchAppMode('explore')">
+            <span class="btn-icon">💡</span> <span data-i18n="btnExplore">Explore Mode</span>
+          </button>
+          <button id="btn-quiz" class="mode-btn" onclick="switchAppMode('quiz')">
+            <span class="btn-icon">🏆</span> <span data-i18n="btnQuiz">Quiz Mode</span>
+          </button>
+          <button id="btn-learn" class="mode-btn" onclick="switchAppMode('learn')">
+            <span class="btn-icon">📖</span> <span data-i18n="btnLearn">Learn Mode</span>
+          </button>
+          <button id="btn-practice" class="mode-btn" onclick="switchAppMode('practice')">
+            <span class="btn-icon">🧭</span> <span data-i18n="btnPractice">Practice</span>
+          </button>
+          <button id="btn-pvp" class="mode-btn" onclick="switchAppMode('pvp')">
+            <span class="btn-icon">⚔️</span> <span data-i18n="btnPvp">PvP Battle</span>
+          </button>
+        </div>
+
+        <div class="score-board hidden" id="score-board">
+          <div class="score-item">
+            <span class="score-label" data-i18n="score">Score</span>
+            <span class="score-value" id="score-value">0</span>
+          </div>
+          <div class="streak-item">
+            <span class="streak-label" data-i18n="streak">Streak</span>
+            <span class="streak-value" id="streak-value">🔥 0</span>
+          </div>
+        </div>
+        
+        <button id="lang-toggle" class="theme-toggle-btn" aria-label="Toggle Language">
+          <span class="lang-icon">🇬🇧</span>
+        </button>
+
+        <button id="sound-toggle" class="theme-toggle-btn" aria-label="Toggle Sound">
+          <span class="sound-icon">🔊</span>
+        </button>
+
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Menu Area -->
+    <section id="main-menu" class="main-menu-panel">
+      <div class="menu-content">
+        <h2 class="menu-welcome" data-i18n="welcome">Hey Kiddo! Ready to learn time? 🌟</h2>
+        
+        <div class="modes-grid">
+          <!-- Explore Mode Card -->
+          <div class="mode-card card-explore" onclick="switchAppMode('explore')">
+            <div class="card-badge green-badge" data-i18n="badgeExplore">FREE PLAY</div>
+            <div class="card-icon">💡</div>
+            <h3 data-i18n="exploreTitle">Explore Mode</h3>
+            <p data-i18n="exploreDesc">Play with the clock needles and see the time change!</p>
+            <button class="play-btn" data-i18n="btnPlay">Let's Play! ➔</button>
+          </div>
+          
+          <!-- Learn Mode Card -->
+          <div class="mode-card card-learn" onclick="switchAppMode('learn')">
+            <div class="card-badge cyan-badge" data-i18n="badgeLearn">GUIDED LESSON</div>
+            <div class="card-icon">📖</div>
+            <h3 data-i18n="learnTitle">Learn Mode</h3>
+            <p data-i18n="learnDesc">Follow a short guided lesson and master the clock step by step.</p>
+            <button class="play-btn" data-i18n="btnLearnStart">Learn Now! ➔</button>
+          </div>
+          
+          <!-- Quiz Mode Card -->
+          <div class="mode-card card-quiz" onclick="switchAppMode('quiz')">
+            <div class="card-badge yellow-badge" data-i18n="badgeQuiz">CHALLENGE</div>
+            <div class="card-icon">🏆</div>
+            <h3 data-i18n="quizTitle">Quiz Mode</h3>
+            <p data-i18n="quizDesc">Test your clock reading skills and win stars!</p>
+            <button class="play-btn" data-i18n="btnPlay">Start Quiz! ➔</button>
+          </div>
+          
+          <!-- Practice Mode Card -->
+          <div class="mode-card card-practice" onclick="switchAppMode('practice')">
+            <div class="card-badge blue-badge" data-i18n="badgePractice">NO PRESSURE</div>
+            <div class="card-icon">🧭</div>
+            <h3 data-i18n="practiceTitle">Practice Mode</h3>
+            <p data-i18n="practiceDesc">Learn at your own pace with hints and unlimited retries.</p>
+            <button class="play-btn" data-i18n="btnPlay">Practise! ➔</button>
+          </div>
+
+          <!-- PvP Mode Card -->
+          <div class="mode-card card-pvp" onclick="switchAppMode('pvp')">
+            <div class="card-badge purple-badge" data-i18n="badgePvp">2 PLAYERS</div>
+            <div class="card-icon">⚔️</div>
+            <h3 data-i18n="pvpTitle">PvP Battle</h3>
+            <p data-i18n="pvpDesc">Race against a friend to set the correct time!</p>
+            <button class="play-btn" data-i18n="btnPlay">Fight! ➔</button>
+          </div>
+        </div>
+        
+        <!-- Stats Summary Peek -->
+        <div class="menu-stats-bar glass-card">
+          <div class="stat-peek-item">
+            <span class="stat-peek-icon">⭐</span>
+            <div class="stat-peek-text">
+              <span class="stat-peek-label" data-i18n="statsScore">High Score</span>
+              <span class="stat-peek-val" id="menu-stat-highscore">0</span>
+            </div>
+          </div>
+          <div class="stat-peek-item">
+            <span class="stat-peek-icon">🔥</span>
+            <div class="stat-peek-text">
+              <span class="stat-peek-label" data-i18n="statsStreak">Best Streak</span>
+              <span class="stat-peek-val" id="menu-stat-beststreak">0</span>
+            </div>
+          </div>
+          <div class="stat-peek-item">
+            <span class="stat-peek-icon">🏆</span>
+            <div class="stat-peek-text">
+              <span class="stat-peek-label" data-i18n="statsAchievements">Badges</span>
+              <span class="stat-peek-val" id="menu-stat-badges">0/15</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Button to open Achievements Modal -->
+        <div class="menu-trophy-actions">
+          <button class="play-btn" style="width: auto; display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, var(--primary) 0%, hsl(262, 83%, 50%) 100%); margin: 0 auto; padding: 12px 30px;" onclick="openTrophyCase()">
+            <span>🏆</span> <span data-i18n="btnTrophy">Trophy Case</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="main-content hidden">
+      <!-- Left Panel: Controls and Settings -->
+      <section class="left-panel">
+        <!-- Card 1: Clock Type Toggles -->
+        <div class="control-card glass-card">
+          <h2 class="card-title" data-i18n="switchClock">Switch Clock Type</h2>
+          <div class="clock-type-toggle">
+            <button id="type-analog" class="type-btn active" title="Analog Only">
+              <div class="icon-analog">
+                <svg viewBox="0 0 100 100" width="32" height="32">
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="6"/>
+                  <line x1="50" y1="50" x2="50" y2="25" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+                  <line x1="50" y1="50" x2="70" y2="50" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span data-i18n="clockAnalog">Analog</span>
+            </button>
+            <button id="type-digital-12" class="type-btn" title="Analog + 12-Hour Digital">
+              <div class="digital-preview">12h</div>
+              <span data-i18n="clockDigital12">12h Digital</span>
+            </button>
+            <button id="type-digital-24" class="type-btn" title="Analog + 24-Hour Digital">
+              <div class="digital-preview">24h</div>
+              <span data-i18n="clockDigital24">24h Digital</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2: Adjustments Grid -->
+        <div class="control-card glass-card" id="adjustments-card">
+          <h2 class="card-title" data-i18n="adjustNeedle">Adjust Clock Needle</h2>
+          <p class="card-subtitle" data-i18n="adjustSubtitle">Click plus/minus buttons to adjust time</p>
+          
+          <div class="adjustment-rows">
+            <!-- 1 Minute Increment -->
+            <div class="adjust-row">
+              <button class="adjust-btn btn-minus" data-amount="-1" data-unit="minute" aria-label="Subtract 1 minute">
+                <span class="math-sign">−</span>
+              </button>
+              <div class="adjust-label" data-i18n="min1">1 minute</div>
+              <button class="adjust-btn btn-plus" data-amount="1" data-unit="minute" aria-label="Add 1 minute">
+                <span class="math-sign">+</span>
+              </button>
+            </div>
+
+            <!-- 5 Minutes Increment -->
+            <div class="adjust-row">
+              <button class="adjust-btn btn-minus" data-amount="-5" data-unit="minute" aria-label="Subtract 5 minutes">
+                <span class="math-sign">−</span>
+              </button>
+              <div class="adjust-label" data-i18n="min5">5 minutes</div>
+              <button class="adjust-btn btn-plus" data-amount="5" data-unit="minute" aria-label="Add 5 minutes">
+                <span class="math-sign">+</span>
+              </button>
+            </div>
+
+            <!-- 10 Minutes Increment -->
+            <div class="adjust-row">
+              <button class="adjust-btn btn-minus" data-amount="-10" data-unit="minute" aria-label="Subtract 10 minutes">
+                <span class="math-sign">−</span>
+              </button>
+              <div class="adjust-label" data-i18n="min10">10 minutes</div>
+              <button class="adjust-btn btn-plus" data-amount="10" data-unit="minute" aria-label="Add 10 minutes">
+                <span class="math-sign">+</span>
+              </button>
+            </div>
+
+            <!-- 15 Minutes Increment -->
+            <div class="adjust-row">
+              <button class="adjust-btn btn-minus" data-amount="-15" data-unit="minute" aria-label="Subtract 15 minutes">
+                <span class="math-sign">−</span>
+              </button>
+              <div class="adjust-label" data-i18n="min15">15 minutes</div>
+              <button class="adjust-btn btn-plus" data-amount="15" data-unit="minute" aria-label="Add 15 minutes">
+                <span class="math-sign">+</span>
+              </button>
+            </div>
+
+            <!-- 30 Minutes Increment -->
+            <div class="adjust-row">
+              <button class="adjust-btn btn-minus" data-amount="-30" data-unit="minute" aria-label="Subtract 30 minutes">
+                <span class="math-sign">−</span>
+              </button>
+              <div class="adjust-label" data-i18n="min30">30 minutes</div>
+              <button class="adjust-btn btn-plus" data-amount="30" data-unit="minute" aria-label="Add 30 minutes">
+                <span class="math-sign">+</span>
+              </button>
+            </div>
+
+            <!-- 1 Hour Increment -->
+            <div class="adjust-row">
+              <button class="adjust-btn btn-minus" data-amount="-1" data-unit="hour" aria-label="Subtract 1 hour">
+                <span class="math-sign">−</span>
+              </button>
+              <div class="adjust-label" data-i18n="hour1">1 hour</div>
+              <button class="adjust-btn btn-plus" data-amount="1" data-unit="hour" aria-label="Add 1 hour">
+                <span class="math-sign">+</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Action Controls -->
+        <div class="control-card glass-card flex-row-card">
+          <button id="btn-random" class="action-btn btn-action-red" title="Set to a random time">
+            <span class="btn-icon">🎲</span> <span data-i18n="btnRandom">Random</span>
+          </button>
+          <button id="btn-now" class="action-btn btn-action-blue" title="Set to current local time">
+            <span class="btn-icon">⏱️</span> <span data-i18n="btnNow">Now</span>
+          </button>
+          <button id="btn-reset" class="action-btn btn-action-gray" title="Reset to 12:00">
+            <span class="btn-icon">🔄</span> <span data-i18n="btnReset">Reset</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Right Panel: Interactive Analog Clock Face & Game Status -->
+      <section class="right-panel">
+        <div class="clock-card glass-card">
+          <!-- Floating AM/PM badge -->
+          <div class="ampm-badge-floating" id="ampm-badge">PM</div>
+
+          <!-- The Analog Clock Container -->
+          <div class="clock-outer-wrapper">
+            <div class="clock-face-container" id="clock-container">
+              <!-- SVG Dial Backing, numbers, ticks, hands -->
+              <svg viewBox="0 0 400 400" class="clock-svg" id="clock-svg">
+                <!-- Clock Outer Shadow & Border -->
+                <circle cx="200" cy="200" r="190" class="clock-bezel" />
+                <circle cx="200" cy="200" r="180" class="clock-dial" />
+                
+                <!-- Center Pivot Underlay -->
+                <circle cx="200" cy="200" r="8" fill="#1b1e2a" />
+                
+                <!-- Minute Ticks (Generated dynamically via Javascript for perfection, but let's draw some key guidelines) -->
+                <g id="clock-ticks"></g>
+                
+                <!-- Hour Numbers (Generated dynamically via Javascript to align perfectly on HSL theme) -->
+                <g id="clock-numbers"></g>
+
+                <!-- Hands Group -->
+                <!-- Hour hand (shorter, red, thicker) -->
+                <g id="hour-hand-group" class="hand-group draggable-hand" role="slider" tabindex="0" aria-label="Hour hand" aria-valuemin="1" aria-valuemax="12" aria-valuenow="12">
+                  <path d="M 200 215 L 200 110" class="hour-hand-line-back" />
+                  <path d="M 200 215 L 200 110" class="hour-hand-line" />
+                  <circle cx="200" cy="110" r="8" class="hour-hand-cap" />
+                  <!-- Hidden thicker hover path for easy grabbing -->
+                  <path d="M 200 215 L 200 110" class="hand-grab-area" />
+                </g>
+
+                <!-- Minute hand (longer, charcoal, thinner) -->
+                <g id="minute-hand-group" class="hand-group draggable-hand" role="slider" tabindex="0" aria-label="Minute hand" aria-valuemin="0" aria-valuemax="59" aria-valuenow="0">
+                  <path d="M 200 225 L 200 65" class="minute-hand-line-back" />
+                  <path d="M 200 225 L 200 65" class="minute-hand-line" />
+                  <circle cx="200" cy="65" r="6" class="minute-hand-cap" />
+                  <!-- Hidden thicker hover path for easy grabbing -->
+                  <path d="M 200 225 L 200 65" class="hand-grab-area" />
+                </g>
+
+                <!-- Center cap -->
+                <circle cx="200" cy="200" r="12" class="center-cap-outer" />
+                <circle cx="200" cy="200" r="6" class="center-cap-inner" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Digital Clock Display (Toggleable) -->
+          <div class="digital-display-card hidden" id="digital-clock-container">
+            <div class="digital-clock-inner">
+              <span id="digital-time-str">12:00</span>
+              <span id="digital-ampm-str" class="digital-ampm">PM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz Challenge Panel (Visible in Quiz Mode) -->
+        <div class="quiz-panel glass-card hidden" id="quiz-panel" style="min-height: 380px; display: flex; flex-direction: column; justify-content: center; position: relative;">
+          
+          <!-- Difficulty Selector Screen -->
+          <div id="quiz-difficulty-screen" class="quiz-overlay-screen" style="width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <h3 style="font-weight: 800; font-size: 1.6rem; margin-bottom: 24px; color: var(--text-main);" data-i18n="selectDifficulty">Choose Difficulty 🎯</h3>
+            <div class="difficulty-options" style="display: flex; flex-direction: column; gap: 14px; width: 100%;">
+              <button class="difficulty-btn diff-easy" onclick="setQuizDifficulty(1)" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.15); width: 100%; text-align: left; cursor: pointer; color: var(--text-main);">
+                <span class="diff-icon" style="font-size: 2.2rem; filter: drop-shadow(0 0 5px var(--accent-green-glow));">🕐</span>
+                <div>
+                  <h4 style="font-size: 1.15rem; font-weight: 800;" data-i18n="diffEasyTitle">Easy Mode</h4>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="diffEasyDesc">O'clock Hours</p>
+                </div>
+              </button>
+              <button class="difficulty-btn diff-medium" onclick="setQuizDifficulty(2)" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.15); width: 100%; text-align: left; cursor: pointer; color: var(--text-main);">
+                <span class="diff-icon" style="font-size: 2.2rem; filter: drop-shadow(0 0 5px var(--accent-blue-glow));">🕞</span>
+                <div>
+                  <h4 style="font-size: 1.15rem; font-weight: 800;" data-i18n="diffMediumTitle">Medium Mode</h4>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="diffMediumDesc">Quarters & Halves</p>
+                </div>
+              </button>
+              <button class="difficulty-btn diff-hard" onclick="setQuizDifficulty(3)" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.15); width: 100%; text-align: left; cursor: pointer; color: var(--text-main);">
+                <span class="diff-icon" style="font-size: 2.2rem; filter: drop-shadow(0 0 5px var(--accent-yellow-glow));">🕠</span>
+                <div>
+                  <h4 style="font-size: 1.15rem; font-weight: 800;" data-i18n="diffHardTitle">Hard Mode</h4>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="diffHardDesc">5-Minute Snaps</p>
+                </div>
+              </button>
+              <button class="difficulty-btn diff-master" onclick="setQuizDifficulty(4)" style="display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.15); width: 100%; text-align: left; cursor: pointer; color: var(--text-main);">
+                <span class="diff-icon" style="font-size: 2.2rem; filter: drop-shadow(0 0 5px var(--primary-glow));">🎓</span>
+                <div>
+                  <h4 style="font-size: 1.15rem; font-weight: 800;" data-i18n="diffMasterTitle">Master Mode</h4>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="diffMasterDesc">Precise Minutes</p>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Quiz Game Screen -->
+          <div id="quiz-game-screen" class="quiz-overlay-screen hidden" style="width: 100%;">
+            <div class="quiz-header">
+              <span class="quiz-badge" id="quiz-level-indicator">Level 1: Hours</span>
+              <div class="quiz-header-right">
+                <span class="question-count" id="question-count">Question 1/10</span>
+                <button class="quiz-exit-btn" onclick="backToMainMenu()" title="Exit Quiz">
+                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="quiz-question-container" style="margin-top: 15px;">
+              <h3 class="quiz-prompt" id="quiz-prompt">Set the clock to 3:00 PM</h3>
+              <p class="quiz-hint" id="quiz-hint">Drag the hands or use the adjustment buttons, then click Submit.</p>
+            </div>
+
+            <!-- Quiz Interactive Choices (For Read the Clock mode) -->
+            <div id="quiz-choices" class="quiz-choices-grid hidden" style="margin-top: 15px;">
+              <!-- 4 Multiple Choice buttons generated dynamically -->
+            </div>
+
+            <!-- Quiz Action / Feedback Area -->
+            <div class="quiz-actions" id="quiz-actions" style="margin-top: 15px;">
+              <button id="btn-submit-answer" class="submit-answer-btn">
+                <span class="btn-icon">⚡</span> <span data-i18n="checkAnswer">Check Answer</span>
+              </button>
+              <button id="btn-next-question" class="next-question-btn hidden">
+                <span data-i18n="nextQuestion">Next Question</span> <span class="btn-icon">➡️</span>
+              </button>
+              <button id="btn-practice-hint" class="practice-hint-btn hidden" onclick="showPracticeHint()">
+                <span class="btn-icon">💡</span> <span data-i18n="practiceHintButton">Show Hint</span>
+              </button>
+            </div>
+            <div id="practice-hint-message" class="practice-hint-message hidden" role="status"></div>
+            <div id="practice-adaptive-message" class="practice-adaptive-message hidden" role="status"></div>
+
+            <!-- Quiz Feedback Toast -->
+            <div class="quiz-feedback-box hidden" id="quiz-feedback" style="margin-top: 15px;">
+              <div class="feedback-icon" id="feedback-icon">🎉</div>
+              <div class="feedback-text">
+                <strong id="feedback-title">Excellent!</strong>
+                <span id="feedback-desc">That is absolutely correct.</span>
+              </div>
+            </div>
+            <div id="quiz-explanation-visual" class="quiz-explanation-visual hidden" role="status">
+              <div class="explanation-chip explanation-hour"><span class="explanation-dot"></span><span id="explain-hour-value"></span></div>
+              <div class="explanation-chip explanation-minute"><span class="explanation-dot"></span><span id="explain-minute-value"></span></div>
+            </div>
+          </div>
+
+          <!-- Session Summary Screen -->
+          <div id="quiz-summary-screen" class="quiz-overlay-screen hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center;">
+            <div class="podium-stars" id="podium-stars" style="font-size: 3.5rem; margin-bottom: 12px; filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4)); letter-spacing: 5px;">
+              ⭐⭐⭐
+            </div>
+            <h3 style="font-weight: 800; font-size: 1.8rem; margin-bottom: 8px; color: var(--text-main);" id="summary-headline">Great Job!</h3>
+            <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 24px;" id="summary-subtext">You scored 80 points!</p>
+            
+            <div class="summary-stats-box" style="display: flex; gap: 20px; width: 100%; justify-content: center; margin-bottom: 24px;">
+              <div class="summary-stat-item" style="background: rgba(0,0,0,0.15); border: 1px solid var(--card-border); padding: 10px 20px; border-radius: 16px; min-width: 110px;">
+                <span class="summary-stat-label" style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 4px;" data-i18n="summaryCorrect">Correct</span>
+                <span class="summary-stat-value" id="summary-correct-count" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">8/10</span>
+              </div>
+              <div class="summary-stat-item" style="background: rgba(0,0,0,0.15); border: 1px solid var(--card-border); padding: 10px 20px; border-radius: 16px; min-width: 110px;">
+                <span class="summary-stat-label" style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 4px;" data-i18n="summaryStreak">Best Streak</span>
+                <span class="summary-stat-value" id="summary-streak-count" style="font-size: 1.25rem; font-weight: 800; color: var(--accent-yellow);">5</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; width: 100%; margin-top: 10px;">
+              <button class="play-btn" style="flex: 1; background: var(--accent-green); padding: 12px;" onclick="restartQuizSession()" data-i18n="btnPlayAgain">Play Again</button>
+              <button class="play-btn" style="flex: 1; background: var(--accent-gray); padding: 12px;" onclick="backToMainMenu()" data-i18n="btnExit">Exit</button>
+            </div>
+          </div>
+        </div>
+        <!-- Guided Learning Panel -->
+        <section id="learn-panel" class="learn-panel glass-card hidden" aria-live="polite">
+          <div class="learn-header">
+            <div>
+              <span class="learn-kicker" data-i18n="learnProgress">Lesson progress</span>
+              <h2 data-i18n="learnHeader">Learn to Read Time</h2>
+            </div>
+            <button class="learn-exit-btn" onclick="backToMainMenu()" data-i18n-title="btnExit" aria-label="Exit Learn Mode">&#10005;</button>
+          </div>
+          <div class="learn-progress-track"><span id="learn-progress-bar"></span></div>
+          <div class="learn-step-count" id="learn-step-count">Lesson 1 of 6</div>
+          <div class="learn-lesson-card">
+            <div class="learn-lesson-icon" id="learn-lesson-icon">🕐</div>
+            <h3 id="learn-step-title">Find the hour</h3>
+            <p id="learn-step-text">The short hand tells the hour.</p>
+            <div class="learn-focus-pill" id="learn-focus-label">Short hand = hour</div>
+            <button id="learn-action-btn" class="learn-action-btn" onclick="handleLearnAction()">Show me</button>
+            <div id="learn-action-feedback" class="learn-action-feedback hidden" role="status"></div>
+          </div>
+          <div class="learn-controls">
+            <button id="learn-prev-btn" class="learn-secondary-btn" onclick="previousLearnStep()" data-i18n="learnBack">Back</button>
+            <button id="learn-next-btn" class="learn-primary-btn" onclick="nextLearnStep()" data-i18n="learnNext">Next</button>
+            <button id="learn-skip-btn" class="learn-skip-btn" onclick="skipLearnLesson()" data-i18n="learnSkip">Skip for now</button>
+          </div>
+          <div id="learn-mastery-summary" class="learn-mastery-summary"></div>
+        </section>
+      </section>
+
+      <!-- PvP Split-Screen Battle Container -->
+      <div id="pvp-container" class="pvp-container hidden">
+
+        <!-- Pre-Game Introduction Overlay -->
+        <div class="pvp-intro-overlay" id="pvp-intro-panel">
+          <div class="pvp-intro-card">
+            <div class="pvp-intro-header">
+              <span class="pvp-intro-icon">⚔️</span>
+              <h2 class="pvp-intro-title">Speed Duel Mode</h2>
+              <p class="pvp-intro-subtitle">Head-to-Head Clock Challenge</p>
+            </div>
+            <div class="pvp-intro-rules">
+              <div class="pvp-rule-item">
+                <span class="pvp-rule-icon">🎯</span>
+                <div class="pvp-rule-text">
+                  <strong>Objective</strong>
+                  <span>Race to answer clock questions before your opponent. First to <em>5 points</em> wins!</span>
+                </div>
+              </div>
+              <div class="pvp-rule-item">
+                <span class="pvp-rule-icon">🕐</span>
+                <div class="pvp-rule-text">
+                  <strong>Set the Clock</strong>
+                  <span>Use adjustment buttons or drag the hands to match the target time, then hit Submit.</span>
+                </div>
+              </div>
+              <div class="pvp-rule-item">
+                <span class="pvp-rule-icon">📖</span>
+                <div class="pvp-rule-text">
+                  <strong>Read the Clock</strong>
+                  <span>Look at the dial and tap the correct time from the 4 choices shown below.</span>
+                </div>
+              </div>
+              <div class="pvp-rule-item">
+                <span class="pvp-rule-icon">🔒</span>
+                <div class="pvp-rule-text">
+                  <strong>One Chance Only</strong>
+                  <span>Each player gets <em>one attempt</em> per round. A wrong answer locks you out permanently. Think carefully!</span>
+                </div>
+              </div>
+            </div>
+            <div class="pvp-intro-players">
+              <div class="pvp-intro-player cyan-glow-text">🟦 Player 1 (Left)</div>
+              <span class="pvp-intro-vs">VS</span>
+              <div class="pvp-intro-player magenta-glow-text">🟥 Player 2 (Right)</div>
+            </div>
+            <div class="pvp-intro-actions">
+              <button class="pvp-intro-start-btn" id="pvp-intro-start" onclick="closePvpIntro()">⚡ START BATTLE ⚡</button>
+              <button class="pvp-intro-exit-btn" onclick="backToMainMenu()" title="Exit Duel">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-svg-icon" style="margin-right: 6px; display: inline-block; vertical-align: middle;">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                EXIT TO MENU
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Player 1 Side (Left) -->
+        <section class="pvp-player-half pvp-p1-half" id="pvp-p1-panel">
+          <!-- Lockout Overlay -->
+          <div class="pvp-lockout-overlay hidden" id="pvp-p1-lockout">
+            <div class="pvp-lockout-content">
+              <span class="pvp-lockout-icon">🔒</span>
+              <h3>ANSWER LOCKED</h3>
+              <p id="pvp-p1-lockout-timer">Waiting for opponent...</p>
+            </div>
+          </div>
+
+          <div class="pvp-player-header">
+            <div class="pvp-player-title cyan-glow-text">Player 1 (Cyan)</div>
+            <div class="pvp-player-stats">
+              <span class="pvp-stat-badge score-badge">Score: <span id="pvp-p1-score">0</span></span>
+              <span class="pvp-stat-badge streak-badge">🔥 <span id="pvp-p1-streak">0</span></span>
+            </div>
+          </div>
+
+          <div class="pvp-clock-outer">
+            <div class="ampm-badge-floating" id="pvp-p1-ampm">PM</div>
+            <div class="clock-outer-wrapper">
+              <div class="clock-face-container">
+                <svg viewBox="0 0 400 400" class="clock-svg" id="pvp-p1-clock-svg">
+                  <!-- Clock Bezel & Dial -->
+                  <circle cx="200" cy="200" r="190" class="clock-bezel" />
+                  <circle cx="200" cy="200" r="180" class="clock-dial" />
+                  
+                  <circle cx="200" cy="200" r="8" fill="#1b1e2a" />
+                  <g id="pvp-p1-ticks"></g>
+                  <g id="pvp-p1-numbers"></g>
+                  
+                  <!-- Hands Group -->
+                  <g id="pvp-p1-hour-hand" class="hand-group draggable-hand" data-player="p1" data-hand="hour">
+                    <path d="M 200 215 L 200 110" class="hour-hand-line-back" />
+                    <path d="M 200 215 L 200 110" class="hour-hand-line" />
+                    <circle cx="200" cy="110" r="8" class="hour-hand-cap" />
+                    <path d="M 200 215 L 200 110" class="hand-grab-area" />
+                  </g>
+                  <g id="pvp-p1-minute-hand" class="hand-group draggable-hand" data-player="p1" data-hand="minute">
+                    <path d="M 200 225 L 200 65" class="minute-hand-line-back" />
+                    <path d="M 200 225 L 200 65" class="minute-hand-line" />
+                    <circle cx="200" cy="65" r="6" class="minute-hand-cap" />
+                    <path d="M 200 225 L 200 65" class="hand-grab-area" />
+                  </g>
+                  
+                  <circle cx="200" cy="200" r="12" class="center-cap-outer" />
+                  <circle cx="200" cy="200" r="6" class="center-cap-inner" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Digital overlay -->
+            <div class="digital-display-card" id="pvp-p1-digital-display">
+              <div class="digital-clock-inner">
+                <span id="pvp-p1-digital-time">12:00</span>
+                <span id="pvp-p1-digital-ampm" class="digital-ampm">PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Adjustments Panel -->
+          <div class="pvp-adjustments-card glass-card">
+            <div class="pvp-adjustment-grid">
+              <button class="pvp-adjust-btn" data-player="p1" data-amount="-5" data-unit="minute">−5m</button>
+              <button class="pvp-adjust-btn" data-player="p1" data-amount="-1" data-unit="minute">−1m</button>
+              <button class="pvp-adjust-btn" data-player="p1" data-amount="1" data-unit="minute">+1m</button>
+              <button class="pvp-adjust-btn" data-player="p1" data-amount="5" data-unit="minute">+5m</button>
+              <button class="pvp-adjust-btn" data-player="p1" data-amount="-30" data-unit="minute">−30m</button>
+              <button class="pvp-adjust-btn" data-player="p1" data-amount="-1" data-unit="hour">−1h</button>
+              <button class="pvp-adjust-btn" data-player="p1" data-amount="1" data-unit="hour">+1h</button>
+              <button class="pvp-adjust-btn" data-player="p1" data-amount="30" data-unit="minute">+30m</button>
+            </div>
+          </div>
+
+          <!-- Multiple choice grid -->
+          <div id="pvp-p1-choices" class="pvp-choices-grid hidden"></div>
+
+          <!-- Submit Action (Set clock) -->
+          <div class="pvp-submit-panel" id="pvp-p1-submit-panel">
+            <button class="pvp-submit-btn cyan-btn" id="pvp-p1-submit" onclick="submitPvpAnswer('p1')">
+              Submit Answer ⚡
+            </button>
+          </div>
+        </section>
+
+        <!-- Dynamic Centered Divider Boundary -->
+        <div class="pvp-central-divider">
+          <div class="pvp-vs-badge">VS</div>
+        </div>
+
+        <!-- Player 2 Side (Right) -->
+        <section class="pvp-player-half pvp-p2-half" id="pvp-p2-panel">
+          <!-- Lockout Overlay -->
+          <div class="pvp-lockout-overlay hidden" id="pvp-p2-lockout">
+            <div class="pvp-lockout-content">
+              <span class="pvp-lockout-icon">🔒</span>
+              <h3>ANSWER LOCKED</h3>
+              <p id="pvp-p2-lockout-timer">Waiting for opponent...</p>
+            </div>
+          </div>
+
+          <div class="pvp-player-header">
+            <div class="pvp-player-title magenta-glow-text">Player 2 (Magenta)</div>
+            <div class="pvp-player-stats">
+              <span class="pvp-stat-badge score-badge">Score: <span id="pvp-p2-score">0</span></span>
+              <span class="pvp-stat-badge streak-badge">🔥 <span id="pvp-p2-streak">0</span></span>
+            </div>
+          </div>
+
+          <div class="pvp-clock-outer">
+            <div class="ampm-badge-floating" id="pvp-p2-ampm">PM</div>
+            <div class="clock-outer-wrapper">
+              <div class="clock-face-container">
+                <svg viewBox="0 0 400 400" class="clock-svg" id="pvp-p2-clock-svg">
+                  <!-- Clock Bezel & Dial -->
+                  <circle cx="200" cy="200" r="190" class="clock-bezel" />
+                  <circle cx="200" cy="200" r="180" class="clock-dial" />
+                  
+                  <circle cx="200" cy="200" r="8" fill="#1b1e2a" />
+                  <g id="pvp-p2-ticks"></g>
+                  <g id="pvp-p2-numbers"></g>
+                  
+                  <!-- Hands Group -->
+                  <g id="pvp-p2-hour-hand" class="hand-group draggable-hand" data-player="p2" data-hand="hour">
+                    <path d="M 200 215 L 200 110" class="hour-hand-line-back" />
+                    <path d="M 200 215 L 200 110" class="hour-hand-line" />
+                    <circle cx="200" cy="110" r="8" class="hour-hand-cap" />
+                    <path d="M 200 215 L 200 110" class="hand-grab-area" />
+                  </g>
+                  <g id="pvp-p2-minute-hand" class="hand-group draggable-hand" data-player="p2" data-hand="minute">
+                    <path d="M 200 225 L 200 65" class="minute-hand-line-back" />
+                    <path d="M 200 225 L 200 65" class="minute-hand-line" />
+                    <circle cx="200" cy="65" r="6" class="minute-hand-cap" />
+                    <path d="M 200 225 L 200 65" class="hand-grab-area" />
+                  </g>
+                  
+                  <circle cx="200" cy="200" r="12" class="center-cap-outer" />
+                  <circle cx="200" cy="200" r="6" class="center-cap-inner" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Digital overlay -->
+            <div class="digital-display-card" id="pvp-p2-digital-display">
+              <div class="digital-clock-inner">
+                <span id="pvp-p2-digital-time">12:00</span>
+                <span id="pvp-p2-digital-ampm" class="digital-ampm">PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Adjustments Panel -->
+          <div class="pvp-adjustments-card glass-card">
+            <div class="pvp-adjustment-grid">
+              <button class="pvp-adjust-btn" data-player="p2" data-amount="-5" data-unit="minute">−5m</button>
+              <button class="pvp-adjust-btn" data-player="p2" data-amount="-1" data-unit="minute">−1m</button>
+              <button class="pvp-adjust-btn" data-player="p2" data-amount="1" data-unit="minute">+1m</button>
+              <button class="pvp-adjust-btn" data-player="p2" data-amount="5" data-unit="minute">+5m</button>
+              <button class="pvp-adjust-btn" data-player="p2" data-amount="-30" data-unit="minute">−30m</button>
+              <button class="pvp-adjust-btn" data-player="p2" data-amount="-1" data-unit="hour">−1h</button>
+              <button class="pvp-adjust-btn" data-player="p2" data-amount="1" data-unit="hour">+1h</button>
+              <button class="pvp-adjust-btn" data-player="p2" data-amount="30" data-unit="minute">+30m</button>
+            </div>
+          </div>
+
+          <!-- Multiple choice grid -->
+          <div id="pvp-p2-choices" class="pvp-choices-grid hidden"></div>
+
+          <!-- Submit Action (Set clock) -->
+          <div class="pvp-submit-panel" id="pvp-p2-submit-panel">
+            <button class="pvp-submit-btn magenta-btn" id="pvp-p2-submit" onclick="submitPvpAnswer('p2')">
+              Submit Answer ⚡
+            </button>
+          </div>
+        </section>
+
+        <!-- Floating HUD banner for shared target time -->
+        <div class="pvp-hud-banner" id="pvp-hud" style="position: relative; padding-bottom: 12px;">
+          <button class="pvp-hud-exit-btn" onclick="backToMainMenu()" title="Exit Duel">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+          <div class="pvp-hud-title" id="pvp-round-indicator">ROUND 1</div>
+          <div class="pvp-hud-prompt" id="pvp-shared-prompt">Race to set the clock to 10:15 AM!</div>
+          
+          <!-- PvP Round Timer Bar -->
+          <div class="pvp-hud-timer-container" style="width: 80%; height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; margin: 8px auto 0 auto; position: relative;">
+            <div id="pvp-timer-bar" style="height: 100%; width: 100%; background: var(--primary); transition: width 0.1s linear, background-color 0.3s; border-radius: 3px;"></div>
+          </div>
+          <span id="pvp-round-timer-text" style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; text-align: center; margin-top: 4px;">30s</span>
+        </div>
+
+        <!-- Round Modal Winner Overlay -->
+        <div class="pvp-modal hidden" id="pvp-round-modal">
+          <div class="pvp-modal-content">
+            <div class="pvp-modal-title" id="pvp-modal-title">PLAYER 1 WINS THE ROUND!</div>
+            <div class="pvp-modal-desc" id="pvp-modal-desc">+1 Point. Loading next speed round...</div>
+          </div>
+        </div>
+
+        <!-- Match Win Podium Grand Overlay -->
+        <div class="pvp-modal hidden" id="pvp-match-modal">
+          <div class="pvp-modal-content pvp-match-victory">
+            <div class="pvp-trophy-icon">🏆</div>
+            <div class="pvp-victory-title" id="pvp-victory-winner">PLAYER 1 IS THE CHAMPION!</div>
+            <div class="pvp-victory-desc">You are the ultimate Time Master of Masa!</div>
+            <button class="pvp-replay-btn" onclick="startPvpBattle()">Play Again 🔄</button>
+            <button class="pvp-exit-btn" onclick="backToMainMenu()">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-svg-icon" style="margin-right: 6px; display: inline-block; vertical-align: middle;">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              Exit Duel
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Information -->
+    <footer class="app-footer">
+      <p data-i18n="footerText">Created with absolute attention to detail using HTML, CSS, and JS elements.</p>
+    </footer>
+  </div>
+
+  <!-- Trophy Case Achievements Modal -->
+  <div class="pvp-modal hidden" id="trophy-modal" onclick="if (event.target === this) closeTrophyCase()">
+    <div class="pvp-modal-content trophy-modal-content" style="width: min(92vw, 680px); max-width: 680px; max-height: min(88vh, 680px); padding: clamp(20px, 3vh, 32px); position: relative; display: flex; flex-direction: column; overflow: hidden;">
+      <button class="quiz-exit-btn trophy-close-btn" onclick="closeTrophyCase()" aria-label="Close Trophy Case" style="position: absolute; top: 14px; right: 14px; background: rgba(255, 255, 255, 0.15); border: 2px solid rgba(255, 255, 255, 0.25); font-size: 1.35rem; font-weight: bold; color: var(--text-main); width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">✕</button>
+      <div class="pvp-trophy-icon" style="font-size: clamp(2.5rem, 5vh, 3.8rem); margin-bottom: 8px; flex-shrink: 0;">🏆</div>
+      <h2 id="trophy-title" style="margin-bottom: 16px; font-weight: 800; text-align: center; flex-shrink: 0;" data-i18n="btnTrophy">My Trophy Case</h2>
+      <div class="trophy-grid" id="trophy-grid" style="flex: 1; overflow-y: auto; width: 100%;">
+        <!-- Badges will be generated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Particle canvas for victory celebrations -->
+  <canvas id="victory-canvas" class="victory-canvas"></canvas>
+
+  <!-- Script File -->
+  <script src="app.js?v=1.3.0"></script>
+</body>
+</html>

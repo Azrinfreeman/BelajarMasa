@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#311B92"/>
+    </linearGradient>
+    <linearGradient id="dialGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Background -->
+  <path d="M32,13 L76,13 Q95,13 95,32 L95,76 Q95,95 76,95 L32,95 Q13,95 13,76 L13,32 Q13,13 32,13 Z" fill="url(#bgGrad)" filter="url(#glow)"/>
+  <!-- Inner Rim -->
+  <path d="M34,16 L74,16 Q92,16 92,34 L92,74 Q92,92 74,92 L34,92 Q16,92 16,74 L16,34 Q16,16 34,16 Z" fill="none" stroke="#6366F1" stroke-width="2"/>
+
+  <!-- Clock Bezel & Dial Face -->
+  <circle cx="54" cy="54" r="36" fill="#1E293B"/>
+  <circle cx="54" cy="54" r="33" fill="url(#dialGrad)" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="54" cy="54" r="29" fill="#162238" opacity="0.8"/>
+
+  <!-- 12 O'Clock Marker (Gold Crown) -->
+  <polygon points="51,25 57,25 55,31 53,31" fill="#F59E0B"/>
+  <!-- 3, 6, 9 O'Clock Markers -->
+  <rect x="77" y="52" width="5" height="4" rx="2" fill="#38BDF8"/>
+  <rect x="52" y="77" width="4" height="5" rx="2" fill="#38BDF8"/>
+  <rect x="26" y="52" width="5" height="4" rx="2" fill="#38BDF8"/>
+
+  <!-- Minor Hour Dots -->
+  <circle cx="67" cy="29.2" r="1.8" fill="#E2E8F0"/>
+  <circle cx="77" cy="39.2" r="1.8" fill="#E2E8F0"/>
+  <circle cx="77" cy="65.2" r="1.8" fill="#E2E8F0"/>
+  <circle cx="67" cy="75.2" r="1.8" fill="#E2E8F0"/>
+  <circle cx="41" cy="75.2" r="1.8" fill="#E2E8F0"/>
+  <circle cx="31" cy="65.2" r="1.8" fill="#E2E8F0"/>
+  <circle cx="31" cy="39.2" r="1.8" fill="#E2E8F0"/>
+  <circle cx="41" cy="29.2" r="1.8" fill="#E2E8F0"/>
+
+  <!-- Hour Hand pointing to 10 o'clock (Red) -->
+  <path d="M51,57 L35,39 L39,35 L57,51 Z" fill="#EF4444"/>
+  <!-- Minute Hand pointing to 2 o'clock (Cyan) -->
+  <path d="M51,51 L72,28 L76,32 L55,55 Z" fill="#00D2FF"/>
+
+  <!-- Center Pivot Cap -->
+  <circle cx="54" cy="54" r="4.5" fill="#F59E0B"/>
+  <circle cx="54" cy="52" r="2" fill="#FFFFFF"/>
+
+  <!-- Learning Star Sparkle -->
+  <polygon points="81,17 83,21 87,22 83,24 81,28 79,24 75,22 79,21" fill="#FACC15"/>
+</svg>
